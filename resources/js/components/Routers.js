@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Example from './Example';
 import Home from './Home';
+import raper from './raper';
 
 function Routers() {
     return (
@@ -11,6 +12,7 @@ function Routers() {
             <Routes>
                 <Route path="/example" element={<Example />} />
                 <Route path="/home" element={<Home />} />
+                <Route path="/raper" element={<raper />} />
             </Routes>
         </Router>
     );

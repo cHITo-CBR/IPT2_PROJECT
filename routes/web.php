@@ -21,6 +21,10 @@ Route::get('/home', function () {
     return view('home');
 });
 
+Route::get('/raper', function () {
+    return view('raper');
+});
+
 Route::get('/{any?}', function () {
     return view('home');
 })->where('any', '^(?!api).*$');

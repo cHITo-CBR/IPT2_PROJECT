@@ -59,49 +59,140 @@ export default function Example() {
         }
     };
 
-    return (
-        <div className="container" style={{ maxWidth: 720, marginTop: 24 }}>
-            <h2 style={{ marginBottom: 12 }}>Students</h2>
-            {message && <div style={{ marginBottom: 8 }}>{message}</div>}
-            {Object.keys(errors).length > 0 && (
-                <div style={{ color: 'red', marginBottom: 8 }}>
-                    {Object.entries(errors).map(([k, v]) => (
-                        <div key={k}>{Array.isArray(v) ? v.join(' ') : v}</div>
-                    ))}
-                </div>
-            )}
-            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 8 }}>
-                <input placeholder="Student ID" value={studentId} onChange={(e) => setStudentId(e.target.value)} />
-                <input placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                <input placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                <input placeholder="Middle Name (optional)" value={middleName} onChange={(e) => setMiddleName(e.target.value)} />
-                <button type="submit">Save</button>
-            </form>
+    const fieldError = (key) => {
+        const v = errors[key];
+        if (!v) return null;
+        return Array.isArray(v) ? v.join(' ') : v;
+    };
 
-            <table style={{ width: '100%', marginTop: 16, borderCollapse: 'collapse' }}>
-                <thead>
-                    <tr>
-                        <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc' }}>Student ID</th>
-                        <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc' }}>First</th>
-                        <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc' }}>Last</th>
-                        <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc' }}>Middle</th>
-                        <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc' }}>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {students.map((s) => (
-                        <tr key={s.id}>
-                            <td style={{ padding: '6px 0' }}>{s.student_id}</td>
-                            <td>{s.first_name}</td>
-                            <td>{s.last_name}</td>
-                            <td>{s.middle_name || ''}</td>
-                            <td>
-                                <button onClick={() => handleDelete(s.id)}>Delete</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+    return (
+        <div className="example-page">
+            <div className="container py-4">
+                <div className="row justify-content-center">
+                    <div className="col-lg-8">
+                        <div className="card shadow-sm">
+                            <div className="card-header">
+                                <h5 className="mb-0">Students</h5>
+                            </div>
+                            <div className="card-body">
+                                {message && (
+                                    <div className="alert alert-info py-2">{message}</div>
+                                )}
+
+                                <form onSubmit={handleSubmit} className="row g-3">
+                                    <div className="col-md-6">
+                                        <label className="form-label">Student ID</label>
+                                        <input
+                                            className={`form-control ${errors.student_id ? 'is-invalid' : ''}`}
+                                            placeholder="e.g. 2025-0001"
+                                            value={studentId}
+                                            onChange={(e) => setStudentId(e.target.value)}
+                                        />
+                                        {errors.student_id && (
+                                            <div className="invalid-feedback d-block">
+                                                {fieldError('student_id')}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="col-md-6">
+                                        <label className="form-label">First Name</label>
+                                        <input
+                                            className={`form-control ${errors.first_name ? 'is-invalid' : ''}`}
+                                            placeholder="e.g. Juan"
+                                            value={firstName}
+                                            onChange={(e) => setFirstName(e.target.value)}
+                                        />
+                                        {errors.first_name && (
+                                            <div className="invalid-feedback d-block">
+                                                {fieldError('first_name')}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="col-md-6">
+                                        <label className="form-label">Last Name</label>
+                                        <input
+                                            className={`form-control ${errors.last_name ? 'is-invalid' : ''}`}
+                                            placeholder="e.g. Dela Cruz"
+                                            value={lastName}
+                                            onChange={(e) => setLastName(e.target.value)}
+                                        />
+                                        {errors.last_name && (
+                                            <div className="invalid-feedback d-block">
+                                                {fieldError('last_name')}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="col-md-6">
+                                        <label className="form-label">Middle Name (optional)</label>
+                                        <input
+                                            className={`form-control ${errors.middle_name ? 'is-invalid' : ''}`}
+                                            placeholder="e.g. Santos"
+                                            value={middleName}
+                                            onChange={(e) => setMiddleName(e.target.value)}
+                                        />
+                                        {errors.middle_name && (
+                                            <div className="invalid-feedback d-block">
+                                                {fieldError('middle_name')}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="col-12">
+                                        <button type="submit" className="btn btn-primary">
+                                            Save
+                                        </button>
+                                    </div>
+                                </form>
+
+                                <hr className="my-4" />
+
+                                <div className="table-responsive">
+                                    <table className="table table-striped table-hover align-middle mb-0">
+                                        <thead className="table-light">
+                                            <tr>
+                                                <th>Student ID</th>
+                                                <th>First</th>
+                                                <th>Last</th>
+                                                <th>Middle</th>
+                                                <th style={{ width: 110 }}>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {students.map((s) => (
+                                                <tr key={s.id}>
+                                                    <td>{s.student_id}</td>
+                                                    <td>{s.first_name}</td>
+                                                    <td>{s.last_name}</td>
+                                                    <td>{s.middle_name || ''}</td>
+                                                    <td>
+                                                        <button
+                                                            className="btn btn-sm btn-outline-danger"
+                                                            onClick={() => handleDelete(s.id)}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            {students.length === 0 && (
+                                                <tr>
+                                                    <td colSpan="5" className="text-center text-muted py-3">
+                                                        No students yet.
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
