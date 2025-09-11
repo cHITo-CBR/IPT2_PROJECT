@@ -49,6 +49,16 @@ export default function Example() {
         }
     };
 
+    const handleDelete = async (id) => {
+        if (!window.confirm('Delete this student?')) return;
+        try {
+            await axios.delete(`/api/students/${id}`);
+            setStudents((prev) => prev.filter((s) => s.id !== id));
+        } catch (e) {
+            console.error('Failed to delete student', e);
+        }
+    };
+
     return (
         <div className="container" style={{ maxWidth: 720, marginTop: 24 }}>
             <h2 style={{ marginBottom: 12 }}>Students</h2>
@@ -75,6 +85,7 @@ export default function Example() {
                         <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc' }}>First</th>
                         <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc' }}>Last</th>
                         <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc' }}>Middle</th>
+                        <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc' }}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,6 +95,9 @@ export default function Example() {
                             <td>{s.first_name}</td>
                             <td>{s.last_name}</td>
                             <td>{s.middle_name || ''}</td>
+                            <td>
+                                <button onClick={() => handleDelete(s.id)}>Delete</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

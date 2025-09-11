@@ -66442,6 +66442,42 @@ function Example() {
       return _ref2.apply(this, arguments);
     };
   }();
+  var handleDelete = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(id) {
+      var _t3;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.p = _context3.n) {
+          case 0:
+            if (window.confirm('Delete this student?')) {
+              _context3.n = 1;
+              break;
+            }
+            return _context3.a(2);
+          case 1:
+            _context3.p = 1;
+            _context3.n = 2;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("/api/students/".concat(id));
+          case 2:
+            setStudents(function (prev) {
+              return prev.filter(function (s) {
+                return s.id !== id;
+              });
+            });
+            _context3.n = 4;
+            break;
+          case 3:
+            _context3.p = 3;
+            _t3 = _context3.v;
+            console.error('Failed to delete student', _t3);
+          case 4:
+            return _context3.a(2);
+        }
+      }, _callee3, null, [[1, 3]]);
+    }));
+    return function handleDelete(_x2) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "container",
     style: {
@@ -66463,10 +66499,10 @@ function Example() {
         color: 'red',
         marginBottom: 8
       },
-      children: Object.entries(errors).map(function (_ref3) {
-        var _ref4 = _slicedToArray(_ref3, 2),
-          k = _ref4[0],
-          v = _ref4[1];
+      children: Object.entries(errors).map(function (_ref4) {
+        var _ref5 = _slicedToArray(_ref4, 2),
+          k = _ref5[0],
+          v = _ref5[1];
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           children: Array.isArray(v) ? v.join(' ') : v
         }, k);
@@ -66537,6 +66573,12 @@ function Example() {
               borderBottom: '1px solid #ccc'
             },
             children: "Middle"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
+            style: {
+              textAlign: 'left',
+              borderBottom: '1px solid #ccc'
+            },
+            children: "Actions"
           })]
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
@@ -66553,6 +66595,13 @@ function Example() {
               children: s.last_name
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
               children: s.middle_name || ''
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                onClick: function onClick() {
+                  return handleDelete(s.id);
+                },
+                children: "Delete"
+              })
             })]
           }, s.id);
         })

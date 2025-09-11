@@ -28,4 +28,10 @@ class StudentController extends Controller
             'student' => $student,
         ], 201);
     }
+
+    public function destroy(Student $student)
+    {
+        $student->delete();
+        return response()->json(['message' => 'Student deleted']);
+    }
 }
